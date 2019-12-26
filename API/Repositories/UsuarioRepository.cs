@@ -13,7 +13,7 @@ namespace API.Repositories
 
         public UsuarioRepository(UserManager<ApplicationUser> userManager)
         {
-            userManager = _userManager;
+            _userManager = userManager;
         }
 
         public ApplicationUser Obter(string email, string senha)
