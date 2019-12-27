@@ -14,7 +14,7 @@ namespace API.Repositories
 
         public TarefaRepository(MinhasTarefasContext banco)
         {
-            banco = _banco;
+            _banco = banco;
         }
 
         public List<Tarefa> Restauracao(ApplicationUser usuario, DateTime dataUltimaSincronizacao)
@@ -30,19 +30,18 @@ namespace API.Repositories
 
         public List<Tarefa> Sincronizacao(List<Tarefa> tarefas)
         {
-            // Registrate new register
-            var tarefasNovas = tarefas.Where(a=>a.IdTarefaApi == 0);
+            
+            var tarefasNovas = tarefas.Where(a=>a.IdTarefaApi == 0).ToList();
+            var tarefasExcluidasAtualizadas = tarefas.Where(a => a.IdTarefaApi != 0).ToList();
+
             if (tarefasNovas.Count() > 0)
             {
                 foreach (var tarefa in tarefasNovas)
                 {
                     _banco.Tarefas.Add(tarefa);
                 }
-                _banco.SaveChanges();
             }
-
-            // Update register
-            var tarefasExcluidasAtualizadas = tarefas.Where(a=>a.IdTarefaApi != 0);
+            
             if (tarefasExcluidasAtualizadas.Count() > 0)
             {
                 foreach (var tarefa in tarefasExcluidasAtualizadas)

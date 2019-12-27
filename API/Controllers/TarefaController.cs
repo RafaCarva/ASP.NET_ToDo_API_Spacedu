@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]/")]
+    [Route("api/[controller]")]
     [ApiController]
     public class TarefaController : ControllerBase
     {
@@ -28,11 +28,12 @@ namespace API.Controllers
 
         [Authorize]
         [HttpPost("sincronizar")]
-        public ActionResult Sincronizar([FromBody] List<Tarefa> tarefas)
+        public ActionResult Sincronizar([FromBody]List<Tarefa> tarefas)
         {
             return Ok(_tarefaRepository.Sincronizacao(tarefas));
         }
 
+        // Recupera um "modelo de tarefa" para vc enviar no body de um "sincronizar"
         [HttpGet("modelo")]
         public ActionResult Modelo()
         {
